@@ -132,7 +132,7 @@ include("head.inc");
 <?php
 if (!is_array($config['shaper']['queue']) || count($config['shaper']['queue']) < 1) {
 	print_info_box(gettext("Traffic shaping is not configured."));
-	include("fend.inc");
+	include("foot.inc");
 	echo "</body></html>";
 	exit;
 }
@@ -213,7 +213,7 @@ else: ?>
 //]]>
 </script>
 </form>
-<?php include("fend.inc"); ?>
+<?php include("foot.inc"); ?>
 </body>
 </html>
 <?php
