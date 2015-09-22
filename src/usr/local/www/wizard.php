@@ -38,8 +38,8 @@
 
 
 require("globals.inc");
-require("guiconfig.inc");
 require("functions.inc");
+require("guiconfig.inc");
 require_once("filter.inc");
 require("shaper.inc");
 require_once("rrd.inc");
@@ -185,7 +185,6 @@ do {
 
 $closehead = false;
 $pgtitle = array($title);
-include("head.inc");
 
 if (file_exists("/usr/local/www/themes/{$g['theme']}/wizard.css")) {
 	echo "<link type=\"text/css\" rel=\"stylesheet\" href=\"/themes/{$g['theme']}/wizard.css\" media=\"all\" />\n";
@@ -193,8 +192,15 @@ if (file_exists("/usr/local/www/themes/{$g['theme']}/wizard.css")) {
 	echo "<link type=\"text/css\" rel=\"stylesheet\" href=\"/themes/{$g['theme']}/all.css\" media=\"all\" />";
 }
 ?>
+
+<script src="/jquery/jquery-1.11.2.min.js"></script>
+<script src="/jquery/jquery-ui-1.11.2.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/jquery/pfSense.js"></script>
+<link rel="stylesheet" href="/bootstrap/css/pfSense.css" />
+
 </head>
-<body link="#0000CC" vlink="#0000CC" alink="#0000CC" >
+<body style='background-color:#FFFFFF'>
 
 <?php if ($pkg['step'][$stepid]['fields']['field'] <> "") { ?>
 <script type="text/javascript">
@@ -316,7 +322,7 @@ function showchange() {
 //]]>
 </script>
 <?php } ?>
-
+<html>
 <form action="wizard.php" method="post" name="iform" id="iform">
 <input type="hidden" name="xml" value="<?= htmlspecialchars($xml) ?>" />
 <input type="hidden" name="stepid" value="<?= htmlspecialchars($stepid) ?>" />
@@ -350,18 +356,14 @@ function showchange() {
 		print_info_box(htmlspecialchars($_POST['message']));
 	}
 ?>
-<table bgcolor="#ffffff" width="95%" border="0" cellspacing="0" cellpadding="2" summary="wizard">
-	<!-- wizard goes here -->
-	<tr><td>&nbsp;</td></tr>
-	<tr>
-		<td class="tabcont">
-			<table width="100%" border="0" cellpadding="6" cellspacing="0" summary="main area">
-				<tr>
-					<td colspan="2" align="center"><font size="2"><b><?= fixup_string($description) ?></b></font></td>
-				</tr>
-				<tr>
-					<td>&nbsp;</td>
-				</tr>
+<div class="panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-striped table-hover" summary="main area">
+			<thead>
+				<label><?=fixup_string($description); ?></label>
+			</thead>	
+			<tbody>
+
 <?php
 	if (!$pkg['step'][$stepid]['disableheader']) {
 		echo "<tr><td colspan=\"2\" class=\"listtopic\">" . fixup_string($title) . "</td></tr>";
@@ -717,9 +719,9 @@ function showchange() {
 
 				break;
 			case "submit":
-				echo "<td>&nbsp;<br /></td></tr>";
+				#echo "<td>&nbsp;<br /></td></tr>";
 				echo "<tr><td colspan=\"2\" align=\"center\">";
-				echo "<input type='submit' name='" . $name . "' value=\"" . htmlspecialchars($field['name']) . "\" />\n";
+				echo "<input type='submit' class='btn btn-success' name='" . $name . "' value=\"" . htmlspecialchars($field['name']) . "\" />\n";
 
 				if ($field['description'] <> "") {
 					echo "<br /> " . $field['description'];
@@ -850,10 +852,10 @@ function showchange() {
 		}
 	}
 ?>
+				</tbody>
 			</table>
-		</td>
-	</tr>
-</table>
+			</div>
+			</div>
 <br />&nbsp;
 </div>
 </center>
@@ -1054,6 +1056,8 @@ function fixup_string($string) {
 function is_timezone($elt) {
 	return !preg_match("/\/$/", $elt);
 }
+
+ob_flush();
 
 ?>
 
